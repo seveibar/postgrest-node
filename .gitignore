@@ -1,0 +1,4 @@
+node_modules
+postgrest
+*.tar.gz
+*.tar.xz
