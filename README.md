@@ -6,10 +6,10 @@ Use [postgrest](http://postgrest.org) ([github](https://github.com/PostgREST/pos
 
 ## Usage
 
-`npm install postgrest-bin`
+`npm install postgrest`
 
 ```javascript
-const postgrest = require("postgrest-bin")
+const postgrest = require("postgrest")
 
 const server = postgrest.startServer({
   dbUri: "postgres://postgrest@localhost:5432/postgres",
@@ -26,3 +26,8 @@ const server = postgrest.startServer({
 
 server.stop()
 ```
+
+## Serverless Usage
+
+[Here's how to run postgrest on a serverless platform like vercel.](https://github.com/seveibar/postgrest-vercel)
+
