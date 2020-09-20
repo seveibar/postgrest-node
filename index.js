@@ -63,7 +63,7 @@ module.exports.startServer = async (config) => {
 
   return {
     stop: async () => {
-      await proc.kill("SIGINT")
+      proc.kill("SIGINT")
     },
   }
 }
