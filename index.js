@@ -28,9 +28,16 @@ module.exports.startServer = async (config) => {
     [configPath],
     {
       shell: true,
-      stdio: "inherit",
     }
   )
+
+  proc.stdout.on("data", (data) => {
+    console.log(`postgrest stdout: ${data}`)
+  })
+
+  proc.stderr.on("data", (data) => {
+    console.log(`postgrest stderr: ${data}`)
+  })
 
   let isClosed = false
   proc.on("close", (code) => {
