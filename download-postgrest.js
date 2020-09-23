@@ -19,11 +19,15 @@ const arch = os.arch()
 const releaseVersionToUse = "7.0.1"
 
 module.exports = async () => {
+  // Get all the assets from the github release page
   const releaseAPIUrl = `https://api.github.com/repos/PostgREST/postgrest/releases/tags/v${releaseVersionToUse}`
   const { assets } = await getJSON(releaseAPIUrl)
+
+  // Find the asset for my operating system
   const myAsset = assets.find((asset) =>
     asset.name.includes(`${platform}-${arch}`)
   )
+
   if (!myAsset) {
     throw new Error(
       `Couldn't find postgrest version compatible with ${platform}-${arch}`
@@ -35,6 +39,9 @@ module.exports = async () => {
       "We didn't build windows support yet! Please make a PR https://github.com/seveibar/postgrest-bin"
     )
   }
+
+  // Download the asset (which is a compressed version of the executable)
+  // e.g. download something like postgrest-ubuntu.tar.xz
 
   const downloadPath = path.resolve(__dirname, myAsset.name)
   const exePath = path.resolve(__dirname, "postgrest")
@@ -51,6 +58,9 @@ module.exports = async () => {
       path.resolve(__dirname, downloadPath)
     )
   }
+
+  // Extract the files from the downloaded asset (i.e. pull out the postgrest binary)
+  // After this, you should have a "postgrest" executable file
 
   if (!fs.existsSync(path.join(__dirname, "extracted"))) {
     console.log(`extracting ${myAsset.name}...`)
