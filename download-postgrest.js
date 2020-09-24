@@ -47,9 +47,8 @@ const releaseVersionToUse = "7.0.1"
 module.exports = async () => {
   // Get all the assets from the github release page
   const releaseAPIUrl = `https://api.github.com/repos/PostgREST/postgrest/releases/tags/v${releaseVersionToUse}`
-  console.log(releaseAPIUrl)
   const { assets } = await getJSON(releaseAPIUrl)
-  console.log(osRelease)
+  
   // Find the asset for my operating system
   const myAsset = assets.find((asset) =>
       asset.name.includes(osRelease)
