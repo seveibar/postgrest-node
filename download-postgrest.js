@@ -60,12 +60,6 @@ module.exports = async () => {
     )
   }
 
-  if (platform === "windows") {
-    throw new Error(
-        "We didn't build windows support yet! Please make a PR https://github.com/seveibar/postgrest-bin"
-    )
-  }
-
   // Download the asset (which is a compressed version of the executable)
   // e.g. download something like postgrest-ubuntu.tar.xz
 
