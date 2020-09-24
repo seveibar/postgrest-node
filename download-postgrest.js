@@ -16,7 +16,7 @@ let osRelease = null
 
 switch(platform) {
   case 'win32':
-    osRelease = `'windows'-${arch}`
+    osRelease = `windows-${arch}`
     break;
   case 'darwin':
     osRelease = 'osx'
@@ -25,7 +25,7 @@ switch(platform) {
     osRelease = 'freebsd'
     break;
   case 'linux':
-    osRelease = `'windows'-${arch}`
+    osRelease = `linux-${arch}`
     break;
     // case 'aix': console.log("IBM AIX platform");
     //   break;
