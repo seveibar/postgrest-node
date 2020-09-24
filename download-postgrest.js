@@ -12,6 +12,32 @@ const getJSON = bent("json", {
 
 const platform = os.platform()
 const arch = os.arch()
+let osRelease = null
+
+switch(platform) {
+  case 'win32':
+    osRelease = `windows-${arch}`
+    break;
+  case 'darwin':
+    osRelease = 'osx'
+    break;
+  case 'freebsd':
+    osRelease = 'freebsd'
+    break;
+  case 'linux':
+    osRelease = `linux-${arch}`
+    break;
+    // case 'aix': console.log("IBM AIX platform");
+    //   break;
+    // case 'android': console.log("Android platform");
+    //   break;
+    // case 'openbsd': console.log("OpenBSD platform");
+    //   break;
+    // case 'sunos': console.log("SunOS platform");
+    //   break;
+
+  default: osRelease = `${platform}-${arch}`;
+}
 
 // Originally derived from the package.json, but that approach doesn't allow for
 // any patches to the bindings... Maybe only sync major versions in the future?
@@ -22,21 +48,15 @@ module.exports = async () => {
   // Get all the assets from the github release page
   const releaseAPIUrl = `https://api.github.com/repos/PostgREST/postgrest/releases/tags/v${releaseVersionToUse}`
   const { assets } = await getJSON(releaseAPIUrl)
-
+  
   // Find the asset for my operating system
   const myAsset = assets.find((asset) =>
-    asset.name.includes(`${platform}-${arch}`)
+      asset.name.includes(osRelease)
   )
 
   if (!myAsset) {
     throw new Error(
-      `Couldn't find postgrest version compatible with ${platform}-${arch}`
-    )
-  }
-
-  if (platform === "windows") {
-    throw new Error(
-      "We didn't build windows support yet! Please make a PR https://github.com/seveibar/postgrest-bin"
+        `Couldn't find postgrest version compatible with ${osRelease}`
     )
   }
 
@@ -54,8 +74,8 @@ module.exports = async () => {
     console.log(`Downloading ${myAsset.name}...`)
 
     await downloadFile(
-      myAsset.browser_download_url,
-      path.resolve(__dirname, downloadPath)
+        myAsset.browser_download_url,
+        path.resolve(__dirname, downloadPath)
     )
   }
 
@@ -82,7 +102,7 @@ module.exports = async () => {
 
     if (!fs.existsSync(exePath)) {
       throw new Error(
-        `For some reason, after extracting postgrest there was no executable!`
+          `For some reason, after extracting postgrest there was no executable!`
       )
     }
   }
