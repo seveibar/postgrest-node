@@ -7,7 +7,7 @@ const bent = require("bent")
 
 const getJSON = bent("json")
 
-module.exports.startServer = async (config) => {
+module.exports.startServer = async (config, processOptions = {}) => {
   let configPath
   let serverPort
   if (typeof config === "string") {
@@ -52,8 +52,9 @@ module.exports.startServer = async (config) => {
         reject(`Postgrest didn't respond`)
         proc.kill("SIGINT")
       }
-    }, 5000) // 500ms to wait for start
-
+    }, processOptions.healthWaitTime || parseInt(process.env.POSTGRES_HEALTH_WAIT_TIME) || 5000) // 5s to wait for start
+    
+    let backoff = 50
     async function checkIfPostgrestRunning() {
       const result = await getJSON(`http://localhost:${serverPort}`).catch(
         () => null
@@ -62,7 +63,8 @@ module.exports.startServer = async (config) => {
         clearTimeout(processCloseTimeout)
         resolve()
       } else {
-        setTimeout(checkIfPostgrestRunning, 50)
+        setTimeout(checkIfPostgrestRunning, backoff)
+        backoff = Math.min(backoff + 50, 250)
       }
     }
     checkIfPostgrestRunning()

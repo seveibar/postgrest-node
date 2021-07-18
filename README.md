@@ -16,7 +16,7 @@ const server = postgrest.startServer({
   dbSchema: "public",
   serverPort: 3000,
   dbAnonRole: "postgres",
-  //...any other postgrest config option, decamilize is run on each key
+  //...any other postgrest config option, decamelize is run on each key
 })
 
 // you can also do this...
