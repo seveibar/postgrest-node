@@ -4,8 +4,15 @@ const tmp = require("tmp")
 const decamelize = require("decamelize")
 const path = require("path")
 const bent = require("bent")
+const debug = require("debug")("postgrest")
+const bunyan = require("bunyan")
 
 const getJSON = bent("json")
+
+const log = bunyan.createLogger({
+  name: "postgrest",
+  level: debug.enabled ? "trace" : "info",
+})
 
 module.exports.startServer = async (config, processOptions = {}) => {
   let configPath
@@ -32,15 +39,16 @@ module.exports.startServer = async (config, processOptions = {}) => {
   )
 
   proc.stdout.on("data", (data) => {
-    console.log(`postgrest stdout: ${data}`)
+    log.trace({ postgrestStdout: data.toString() })
   })
 
   proc.stderr.on("data", (data) => {
-    console.log(`postgrest stderr: ${data}`)
+    log.trace({ postgrestStderr: data.toString() })
   })
 
   let isClosed = false
   proc.on("close", (code) => {
+    log.trace({ postgrestShutdown: true })
     isClosed = true
   })
 
@@ -56,7 +64,7 @@ module.exports.startServer = async (config, processOptions = {}) => {
 
     let backoff = 50
     async function checkIfPostgrestRunning() {
-      const result = await getJSON(`http://localhost:${serverPort}`).catch(
+      const result = await getJSON(`http://127.0.0.1:${serverPort}`).catch(
         () => null
       )
       if (result) {
