@@ -1,6 +1,6 @@
 {
   "name": "postgrest",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
