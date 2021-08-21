@@ -22,8 +22,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm install
-      - name: Test
-        run: npm run test
       - name: Release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

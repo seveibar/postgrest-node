@@ -1,5 +1,7 @@
 # postgrest-node
 
+[![npm version](https://badge.fury.io/js/postgrest.svg)](https://badge.fury.io/js/postgrest)
+
 > PostgREST serves a fully RESTful API from any existing PostgreSQL database. It provides a cleaner, more standards-compliant, faster API than you are likely to write from scratch. - [postgrest github](https://github.com/PostgREST/postgrest)
 
 Use [postgrest](http://postgrest.org) ([github](https://github.com/PostgREST/postgrest)) as an npm module for tighter integration with node apps (e.g. test fixtures). Also enables postgrest usage in serverless environments.
@@ -30,4 +32,3 @@ server.stop()
 ## Serverless Usage
 
 [Here's how to run postgrest on a serverless platform like vercel.](https://github.com/seveibar/postgrest-vercel)
-
