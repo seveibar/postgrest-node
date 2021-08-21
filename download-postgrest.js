@@ -43,7 +43,8 @@ switch (platform) {
 // Originally derived from the package.json, but that approach doesn't allow for
 // any patches to the bindings... Maybe only sync major versions in the future?
 // Either that or tag the releases for older version e.g. 1.2.3-postgrest6
-const releaseVersionToUse = "7.0.1"
+// NOTE: Version 8.0.0 doesn't seem to have osx support
+const releaseVersionToUse = "8.0.0"
 
 module.exports = async () => {
   // Get all the assets from the github release page
