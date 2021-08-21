@@ -53,7 +53,7 @@ module.exports.startServer = async (config, processOptions = {}) => {
         proc.kill("SIGINT")
       }
     }, processOptions.healthWaitTime || parseInt(process.env.POSTGRES_HEALTH_WAIT_TIME) || 5000) // 5s to wait for start
-    
+
     let backoff = 50
     async function checkIfPostgrestRunning() {
       const result = await getJSON(`http://localhost:${serverPort}`).catch(

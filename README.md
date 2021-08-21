@@ -32,4 +32,3 @@ server.stop()
 ## Serverless Usage
 
 [Here's how to run postgrest on a serverless platform like vercel.](https://github.com/seveibar/postgrest-vercel)
-
