@@ -70,7 +70,7 @@ module.exports = async () => {
     return exePath
   }
 
-  if (!fs.existsSync(path.join(__dirname, myAsset.name))) {
+  if (!fs.existsSync(downloadPath)) {
     console.log(`Downloading ${myAsset.name}...`)
 
     await downloadFile(
@@ -91,9 +91,9 @@ module.exports = async () => {
       const readFile = fs.createReadStream(downloadPath)
       const writeFile = fs.createWriteStream(newTarPath)
       readFile.pipe(decomp).pipe(writeFile)
+      await new Promise((resolve) => writeFile.on("finish", resolve))
       fs.unlinkSync(tarXPath)
       tarXPath = newTarPath
-      await new Promise((resolve) => writeFile.on("finish", resolve))
     }
     await tar.x({
       file: tarXPath,
